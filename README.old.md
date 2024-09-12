@@ -1,2 +1,0 @@
-# gsap
-Testing gsap library
