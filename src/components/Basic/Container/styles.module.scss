@@ -1,5 +1,12 @@
 .b-container {
   height: 100vh;
-  background-color: #eaeaff;
   padding-inline: 20px;
+
+  &[data-is-transparent] {
+    background-color: transparent;
+  }
+
+  &[data-is-transparent='false'] {
+    background-color: #eaeaff;
+  }
 }
