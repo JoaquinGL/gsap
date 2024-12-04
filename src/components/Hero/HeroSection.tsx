@@ -27,27 +27,44 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 
     timeline
       .fromTo(
+        splineContainerRef.current,
+        {
+          opacity: 0,
+          scale: 0.8,
+          yPercent: -20, // Aparece ligeramente por encima
+        },
+        {
+          opacity: 1,
+          scale: 1,
+          yPercent: -20, // Se mantiene en esta posición durante la animación inicial
+          duration: 2,
+          ease: 'elastic.out(1, 0.3)', // Efecto de rebote inicial
+        },
+      )
+      .to(splineContainerRef.current, {
+        yPercent: 0, // Se desplaza a su posición final (parte inferior)
+        duration: 1.5, // Duración del desplazamiento
+        ease: 'power3.out', // Suavizado del desplazamiento
+        // Se solapan las animaciones siguientes con esta
+      })
+      // Animaciones de los textos mientras el spline se desplaza
+      .fromTo(
         headingRef.current,
         { opacity: 0, y: -50 },
         { opacity: 1, y: 0, duration: 1.5, ease: 'power3.out' },
+        '-=1.5', // Se solapa justo cuando comienza el desplazamiento del spline
       )
       .fromTo(
         paragraphRef.current,
         { opacity: 0, y: 50 },
         { opacity: 1, y: 0, duration: 1.5, ease: 'power3.out' },
-        '-=1',
+        '-=1.25', // Se solapa un poco antes de que termine el heading
       )
       .fromTo(
         buttonRef.current,
         { opacity: 0, scale: 0.8 },
         { opacity: 1, scale: 1, duration: 1, ease: 'elastic.out(1, 0.3)' },
-        '-=0.5',
-      )
-      .fromTo(
-        splineContainerRef.current,
-        { opacity: 0, scale: 0.8 },
-        { opacity: 1, scale: 1, duration: 1, ease: 'elastic.out(1, 0.3)' },
-        '-=0.5',
+        '-=1', // Se solapa ligeramente después de la aparición del párrafo
       );
   }, []);
 
